@@ -8,5 +8,5 @@ app.use(cors())
 app.get("/",(req,res)=>{
     res.send("Hello world")
 })
-
+// app.get("/")
 module.exports = app;
