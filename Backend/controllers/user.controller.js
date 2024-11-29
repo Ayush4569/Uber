@@ -1,6 +1,7 @@
 const { validationResult } = require("express-validator");
 const User = require("../models/user.model.js");
 const { createUser } = require("../services/user.services.js");
+const BlackListToken = require("../models/blackListToken.model.js");
 
 const registerUser = async (req, res, next) => {
   const errors = validationResult(req); // get the erros from user route if any
@@ -9,6 +10,10 @@ const registerUser = async (req, res, next) => {
   }
   // console.log(req.body);
   const { fullname, email, password } = req.body;
+  const isUserExists = await Captain.findOne({ email });
+  if (isUserExists) {
+    return res.status(400).json({ message: "User already exist" });
+  }
   const hashedPassword = await User.hashPassword(password);
   const user = await createUser({
     firstname: fullname.firstname,
@@ -44,4 +49,14 @@ const loginUser = async (req, res, next) => {
 const userProfile = async(req,res,next)=>{
   return res.status(200).json(req.user)
 }
-module.exports = { registerUser, loginUser,userProfile };
+
+const logoutUser = async(req,res,next)=>{
+  const token = req.cookies?.token || req.headers.authorization.splite(" ")[1];
+  // add this token to blacklist and then clear it from cookies
+  await BlackListToken.create({token});
+
+  res.clearCookie('token');
+
+  return res.status(200).json({message:"Logged out"})
+}
+module.exports = { registerUser, loginUser,userProfile,logoutUser };
