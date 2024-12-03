@@ -1,18 +1,34 @@
-import React, { useState } from "react";
-import { Link } from "react-router-dom";
-
+import React, { useContext, useState } from "react";
+import { Link,useNavigate } from "react-router-dom";
+import { UserDataContext } from "../context/userContext";
+import axios from "axios";
 const UserLogin = () => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
-  const [userData, setUserData] = useState({});
-  const submitHandler = (e) => {
+  const { user, setUser } = useContext(UserDataContext);
+  const navigate = useNavigate()
+  const submitHandler = async(e) => {
     e.preventDefault();
-    setUserData({
+    let userData = {
       email,
       password
-    })
-    setEmail('')
-    setPassword('')
+    }
+    try {
+      const response = await axios.post(
+        `${import.meta.env.VITE_BASE_URL}/users/login`,userData
+      );
+      if (response.status === 200) {
+        localStorage.setItem('token',response.data.token)
+        setUser(response.data.user);
+        navigate("/home");
+      }
+    } catch (error) {
+      console.log("Error at user login", error);
+    } finally {
+      setEmail("");
+      setPassword("");
+    }
+
   };
   return (
     <div className="p-7 flex flex-col justify-between h-screen">

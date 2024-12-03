@@ -4,7 +4,7 @@ const express = require("express");
 const { authUser } = require("../middlewares/auth.middleware");
 const router = express.Router();
 
-router.post("/register",[
+router.post("/signup",[
     body("email").isEmail().withMessage("Invalid email"),
     body("fullname.firstname").isLength({min:3}).withMessage("First name must be atleast 3 characters long"),
     body("password").isLength({min:6}).withMessage("Password must be atleast 3 characters long")

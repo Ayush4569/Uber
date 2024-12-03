@@ -5,7 +5,7 @@ const mongoose = require('mongoose');
         .then((connection)=>{
             console.log("MONGODB conneced !! ",connection.connection.name);
         })
-        .catch(()=>{
+        .catch((error)=>{
             console.log("Error connecting datase :",error);
             process.exit(1)
         })

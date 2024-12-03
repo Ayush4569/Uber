@@ -10,7 +10,7 @@ const registerUser = async (req, res, next) => {
   }
   // console.log(req.body);
   const { fullname, email, password } = req.body;
-  const isUserExists = await Captain.findOne({ email });
+  const isUserExists = await User.findOne({ email });
   if (isUserExists) {
     return res.status(400).json({ message: "User already exist" });
   }
@@ -26,6 +26,7 @@ const registerUser = async (req, res, next) => {
 };
 
 const loginUser = async (req, res, next) => {
+  console.log(req.body);
   const errors = validationResult(req);
   if (!errors.isEmpty()) {
     return res.status(400).json({ errors: errors.array() });
@@ -51,7 +52,8 @@ const userProfile = async(req,res,next)=>{
 }
 
 const logoutUser = async(req,res,next)=>{
-  const token = req.cookies?.token || req.headers.authorization.splite(" ")[1];
+  const token = req.cookies?.token || req.headers.authorization?.split(" ")[1];
+  console.log(token);
   // add this token to blacklist and then clear it from cookies
   await BlackListToken.create({token});
 
