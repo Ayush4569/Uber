@@ -3,7 +3,7 @@ const mongoose = require('mongoose');
  function connectDB (){
         mongoose.connect(process.env.MONGODB_URL)
         .then((connection)=>{
-            console.log("MONGODB conneced !! ",connection.connection.name);
+            console.log(`MONGODB connected !! -> ${connection.connection.name.toUpperCase()} PROJECT`);
         })
         .catch((error)=>{
             console.log("Error connecting datase :",error);

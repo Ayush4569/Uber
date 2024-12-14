@@ -7,9 +7,13 @@ import VehiclePanel from "../components/VehiclePanel";
 import ConfirmRide from "../components/ConfirmRide";
 import LookingForDriver from "../components/LookingForDriver";
 import WaitingForDriver from "../components/WaitingForDriver";
+import axios from "axios"
 const Home = () => {
   const [pickup, setPickup] = useState("");
+  const [pickupSuggestions, setPickupSuggestions] = useState(null);
   const [destination, setDestination] = useState("");
+  const [destinationSuggestions, setDestinationSuggestions] = useState(null);
+  const [active, setActive] = useState(null);
   const [panelOpen, setPanelOpen] = useState(false);
   const panelRef = useRef(null);
   const panelCloseRef = useRef(null);
@@ -106,6 +110,42 @@ const Home = () => {
     },
     [waitingForDriverPanel]
   );
+
+  async function getPickupSuggestions(e){
+    setPickup(e.target.value)
+    try {
+      const response = await axios.get(`${import.meta.env.VITE_BASE_URL}/maps/get-suggestions`,{
+        headers:{
+          Authorization:`bearer ${localStorage.getItem('token')}`
+        },
+        params: {location:e.target.value}
+      })
+     if(response.statusText == 'OK'){
+      console.log(response.data);
+       setPickupSuggestions(response.data)
+     }
+    } catch (error) {
+      console.log("Error fetching suggestions",error);
+    }
+  }
+  async function getDestinationSuggestions(e){
+    setDestination(e.target.value)
+    try {
+      const response = await axios.get(`${import.meta.env.VITE_BASE_URL}/maps/get-suggestions`,{
+        headers:{
+          Authorization:`bearer ${localStorage.getItem('token')}`
+        },
+        params: {location:e.target.value}
+      })
+     if(response.statusText == 'OK'){
+      console.log(response.data);
+       setDestinationSuggestions(response.data)
+     }
+    } catch (error) {
+      console.log("Error fetching suggestions",error);
+    }
+  }
+
   return (
     <div className="h-screen relative overflow-y-hidden">
       <img
@@ -137,9 +177,10 @@ const Home = () => {
               placeholder="Add a pickup location"
               value={pickup}
               onClick={() => {
-                setPanelOpen(true);
+                setPanelOpen(true),
+                setActive("pickup")
               }}
-              onChange={(e) => setPickup(e.target.value)}
+              onChange={(e) => {getPickupSuggestions(e)}}
             />
             <input
               className="bg-[#eee] px-12 py-2 text-lg rounded-lg w-full mt-3"
@@ -147,14 +188,20 @@ const Home = () => {
               placeholder="Enter your destination"
               value={destination}
               onClick={() => {
-                setPanelOpen(true);
+                setPanelOpen(true),
+                setActive("destination")
               }}
-              onChange={(e) => setDestination(e.target.value)}
+              onChange={(e) => getDestinationSuggestions(e)}
             />
           </form>
+          <button className="bg-black text-white px-4 py-2 rounded-lg w-full mt-2">Find trip</button>
         </div>
         <div ref={panelRef} className="bg-white  h-0">
           <LocationSearchPanel
+            suggestions = {active === "pickup" ? pickupSuggestions : destinationSuggestions}
+            active={active}
+            setPickup={setPickup}
+            setDestination={setDestination}
             setVehicleOpenPanel={setVehicleOpenPanel}
             setPanelOpen={setPanelOpen}
           />
