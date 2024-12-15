@@ -23,9 +23,10 @@ const getDistanceAndTime = async (origin, destination) => {
   if (!origin && !destination) {
     throw new Error("Origin and destination are required");
   }
-  const url = `https://maps.gomaps.pro/maps/api/distancematrix/json?origins=${origin}&destinations=${destination}&key=${process.env.GOOGLE_MAPS_API}`;
   try {
-    const response = await axios.get(url);
+    const response = await axios.get(
+      `https://maps.gomaps.pro/maps/api/distancematrix/json?origins=${encodeURIComponent(origin)}&destinations=${encodeURIComponent(destination)}&key=${process.env.GOOGLE_MAPS_API}`
+    );
     if (response.data.status === "OK") {
       return response.data.rows[0].elements[0];
     } else {
@@ -45,12 +46,13 @@ const getLocationSuggestions = async (location) => {
   if (!location) {
     throw new Error("Location is required");
   }
-  const url = `https://maps.gomaps.pro/maps/api/place/autocomplete/json?input=${encodeURIComponent(
-    location
-  )}&key=${process.env.GOOGLE_MAPS_API}`;
 
   try {
-    const response = await axios.get(url);
+    const response = await axios.get(
+      `https://maps.gomaps.pro/maps/api/place/autocomplete/json?input=${encodeURIComponent(
+        location
+      )}&key=${process.env.GOOGLE_MAPS_API}`
+    );
     if (response.data.status === "OK") {
       return response.data.predictions;
     } else {
@@ -62,4 +64,8 @@ const getLocationSuggestions = async (location) => {
   }
 };
 
-module.exports = { getAddressCoordinates, getDistanceAndTime,getLocationSuggestions };
+module.exports = {
+  getAddressCoordinates,
+  getDistanceAndTime,
+  getLocationSuggestions,
+};

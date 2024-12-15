@@ -14,7 +14,7 @@ const LocationSearchPanel = ({
     } else {
       setDestination(suggestion);
     }
-    setPanelOpen(false), setVehicleOpenPanel(true);
+    // setPanelOpen(false), setVehicleOpenPanel(true);
   }
   return (
     <div className="border border-red-600 mt-6">
