@@ -5,6 +5,7 @@ import RidePopup from "../components/RidePopup";
 import { useGSAP } from "@gsap/react";
 import gsap from "gsap";
 import ConfirmRidePopup from "../components/ConfirmRidePopup";
+import { useCaptain } from "../context/CaptainContext";
 const CaptainHome = () => {
   const [ridePopupPanel, setRidePopupPanel] = useState(true);
   const [confirmridePopupPanel, setConfirmRidePopupPanel] = useState(false);
@@ -38,6 +39,7 @@ const CaptainHome = () => {
     },
     [confirmridePopupPanel]
   );
+  const {captain} = useCaptain()
   return (
     <div className="h-screen">
       <div className="fixed flex w-full justify-between items-center p-6 ">
@@ -61,7 +63,7 @@ const CaptainHome = () => {
         />
       </div>
       <div className="h-2/5 p-6 ">
-        <CaptainDetails />
+        <CaptainDetails captain={captain} />
       </div>
       <div
         ref={ridePopupPanelRef}

@@ -1,4 +1,4 @@
-import { createContext, useState } from 'react';
+import { createContext, useContext, useState } from 'react';
 
 export const CaptainDataContext = createContext();
 
@@ -28,3 +28,4 @@ export const CaptainContext = ({ children }) => {
     );
 };
 
+export const useCaptain =()=> useContext(CaptainContext)
