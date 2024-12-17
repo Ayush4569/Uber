@@ -28,4 +28,4 @@ export const CaptainContext = ({ children }) => {
     );
 };
 
-export const useCaptain =()=> useContext(CaptainContext)
+export const useCaptain =()=> useContext(CaptainDataContext)

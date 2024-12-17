@@ -29,15 +29,19 @@ const Home = () => {
   const vehicleFoundRef = useRef(null);
   const [waitingForDriverPanel, setWaitingForDriverPanel] = useState(false);
   const waitingForDriverRef = useRef(null);
-  const {sendMessage,receiveMessage} = useSocket()
+  const {socket} = useSocket()
   const { user } = useContext(UserDataContext);
   const submitHandler = async (e) => {
     e.preventDefault();
   };
   useEffect(() => {
-    sendMessage('join',{userType:'user',userId:user._id})
+    socket.emit('join',{userType:'user',userId:user?._id})
   }, [])
   
+  socket.on('confirm-ride',()=>{
+    setWaitingForDriverPanel(true)
+  })
+
   useGSAP(
     function () {
       if (panelOpen) {

@@ -38,6 +38,7 @@ const authCaptain = async(req,res,next)=>{
   try {
     const decodedToken = jwt.verify(token, process.env.JWT_SECRET);
     const captain = await Captain.findById(decodedToken._id); // decodedToken is nothing but _id which we created using jwt.sign()
+    console.log(captain);
     req.captain = captain;
     return next();
   } catch (error) {

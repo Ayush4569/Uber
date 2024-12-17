@@ -53,4 +53,20 @@ const createRide = async ({ user, pickup, destination, vehicleType }) => {
   return ride;
 };
 
-module.exports = { createRide,getFare };
+const confirmRide = async({rideId,captain})=>{
+  if (!rideId) {
+    throw new Error("Ride id is required");
+  }
+  // update the ride details like captain id and status of ride
+  await Ride.findByIdAndUpdate(rideId,{
+    captain:captain._id,
+    status:'accepted'
+  })
+
+  const ride = await Ride.findById(rideId).populate('user')
+  if(!ride){
+    throw new Error("Ride not exisits");
+  }
+  return ride
+}
+module.exports = { createRide,getFare,confirmRide };
