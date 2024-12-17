@@ -7,12 +7,14 @@ import gsap from "gsap";
 import ConfirmRidePopup from "../components/ConfirmRidePopup";
 import { useCaptain } from "../context/CaptainContext";
 import { useSocket } from "../context/SocketContext";
+import axios from "axios";
 const CaptainHome = () => {
   const [ridePopupPanel, setRidePopupPanel] = useState(false);
   const [confirmridePopupPanel, setConfirmRidePopupPanel] = useState(false);
   const ridePopupPanelRef = useRef(null);
   const [ride,setRide] = useState(null)
   const confirmridePopupPanelRef = useRef(null);
+ 
   useGSAP(
     function () {
       if (ridePopupPanel) {
@@ -79,8 +81,6 @@ const CaptainHome = () => {
     })
 
     setRidePopupPanel(false)
-    setConfirmRidePopupPanel(true)
-
 }
   return (
     <div className="h-screen">

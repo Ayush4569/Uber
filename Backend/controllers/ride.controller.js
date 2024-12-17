@@ -4,7 +4,7 @@ const { getAddressCoordinates, getCaptainInTheRadius } = require("../services/ma
 const { sendMessageToSocketId } = require("../socket");
 const { Ride } = require("../models/ride.model");
 
-const startRide = async(req,res)=>{
+const createNewRide = async(req,res)=>{
     const errors = validationResult(req);
     if(!errors.isEmpty()){
         return res.status(400).json({ errors: errors.array() });
@@ -19,7 +19,6 @@ const startRide = async(req,res)=>{
         //  console.log("captains",captainsInRadius);
          ride.otp  = null;
          const rideWithUserInfo = await Ride.findOne({_id:ride._id}).populate("user")
-         console.log(rideWithUserInfo);
          captainsInRadius.map(captain=>{
             sendMessageToSocketId(captain.socketId,{
                 event:'new-ride',
@@ -32,7 +31,6 @@ const startRide = async(req,res)=>{
     }
 }
 const calculateFare = async (req,res)=>{
-    console.log('query',req.query);
     const errors = validationResult(req);
     if (!errors.isEmpty()) {
         return res.status(400).json({ errors: errors.array() });
@@ -63,9 +61,9 @@ const confirmUserRide = async(req,res)=>{
         })
         return res.status(200).json(confirmedRide)
     } catch (error) {
-        console.log(error);
+        // console.log(error);
         return res.status(500).json({ message: error.message });
     }
 
 }
-module.exports = {startRide,calculateFare,confirmUserRide}
+module.exports = {createNewRide,calculateFare,confirmUserRide}

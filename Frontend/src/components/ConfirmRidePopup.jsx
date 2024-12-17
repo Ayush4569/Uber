@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import { Link } from "react-router-dom";
-const ConfirmRidePopup = ({ setConfirmRidePopupPanel, setRidePopupPanel }) => {
+const ConfirmRidePopup = ({ setConfirmRidePopupPanel, setRidePopupPanel,ride }) => {
   const [otp,setOtp] = useState('')
     function submitHandler(e){
       e.preventDefault()
@@ -25,7 +25,7 @@ const ConfirmRidePopup = ({ setConfirmRidePopupPanel, setRidePopupPanel }) => {
             className="h-12 w-12 rounded-full object-cover"
             src="https://preview.redd.it/created-random-people-using-chatgpt-midjourney-do-you-know-v0-q1aa450i5dqb1.png?width=1024&format=png&auto=webp&s=c4e9abc47d193474a2fa1a7e337d9d9340dce947"
           />
-          <h2 className="text-lg font-medium">Harsh Patel</h2>
+          <h2 className="text-lg font-medium">{ride?.user.fullname.firstname}</h2>
         </div>
         <h5 className="text-lg font-semibold">2.2 KM</h5>
       </div>
@@ -64,11 +64,11 @@ const ConfirmRidePopup = ({ setConfirmRidePopupPanel, setRidePopupPanel }) => {
               onChange={e=>setOtp(e.target.value)}
               placeholder="Enter your OTP"
             />
-            <Link
-              to="/captain-riding" className="flex justify-center mt-5 bg-green-600 text-white font-semibold p-3 rounded-lg text-lg"
+            <button
+               className="flex justify-center mt-5 bg-green-600 text-white font-semibold p-3 rounded-lg text-lg"
             >
               Confirm
-            </Link>
+            </button>
             <button
               onClick={() => {
                 setRidePopupPanel(false), setConfirmRidePopupPanel(false);

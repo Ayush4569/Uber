@@ -31,6 +31,7 @@ const Home = () => {
   const waitingForDriverRef = useRef(null);
   const {socket} = useSocket()
   const { user } = useContext(UserDataContext);
+  const [rideDetails,setRideDetails] = useState(null);
   const submitHandler = async (e) => {
     e.preventDefault();
   };
@@ -38,8 +39,10 @@ const Home = () => {
     socket.emit('join',{userType:'user',userId:user?._id})
   }, [])
   
-  socket.on('confirm-ride',()=>{
+  socket.on('confirm-ride',(rideDetails)=>{
+    console.log('in socket');
     setWaitingForDriverPanel(true)
+    setRideDetails(rideDetails)
   })
 
   useGSAP(
@@ -319,9 +322,10 @@ const Home = () => {
       {/* waiting for drivers div */}
       <div
         ref={waitingForDriverRef}
+       
         className="fixed w-full z-10 bg-white bottom-0 translate-y-full px-3 py-6 pt-12"
       >
-        <WaitingForDriver waitingForDriverPanel={waitingForDriverPanel} />
+        <WaitingForDriver  ride = {rideDetails} waitingForDriverPanel={waitingForDriverPanel} />
       </div>
     </div>
   );

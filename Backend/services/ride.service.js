@@ -63,7 +63,7 @@ const confirmRide = async({rideId,captain})=>{
     status:'accepted'
   })
 
-  const ride = await Ride.findById(rideId).populate('user')
+  const ride = await Ride.findById(rideId).populate('user').populate('captain').select('+otp')
   if(!ride){
     throw new Error("Ride not exisits");
   }
