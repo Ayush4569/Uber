@@ -1,7 +1,16 @@
 import React from 'react'
-import { Link } from 'react-router-dom'
+import { Link,useLocation,useNavigate } from 'react-router-dom'
+import { useSocket } from '../context/SocketContext';
 
 const Riding = () => {
+  const location = useLocation();
+  const ride = location.state?.ride
+  const navigate = useNavigate()
+  const {socket} = useSocket();
+  socket.on('ride-finished',(data)=>{
+    // console.log(data);
+    navigate('/home')
+  })
   return (
     <div className='h-screen'>
      <Link to='/home' className='fixed top-2 right-2 h-10 w-10 rounded-full bg-white flex items-center justify-center'>
@@ -17,8 +26,8 @@ const Riding = () => {
      <div className='flex items-center justify-between'>
         <img className='h-12' src="https://swyft.pl/wp-content/uploads/2023/05/how-many-people-can-a-uberx-take.jpg" alt="" />
         <div className='text-right'>
-          <h2 className='text-lg font-medium capitalize'>Ayush</h2>
-          <h4 className='text-xl font-semibold -mt-1 -mb-1'>MX-04 ZX 23</h4>
+          <h2 className='text-lg font-medium capitalize'>{ride?.captain.fullname.firstname}</h2>
+          <h4 className='text-xl font-semibold -mt-1 -mb-1'>{ride?.captain.vehicle.plate}</h4>
           <p className='text-sm text-gray-600'>Maruti Suzuki Alto</p>
         </div>
       </div>
@@ -29,14 +38,14 @@ const Riding = () => {
             <i className="text-lg ri-map-pin-2-fill"></i>
             <div>
               <h3 className='text-lg font-medium'>562/11-A</h3>
-              <p className='text-sm -mt-1 text-gray-600'>CST</p>
+              <p className='text-sm -mt-1 text-gray-600'>{ride?.destination}</p>
             </div>
           </div>
           <div className='flex items-center gap-5 p-3'>
             <i className="ri-currency-line"></i>
             <div>
-              <h3 className='text-lg font-medium'>₹637.33 </h3>
-              <p className='text-sm -mt-1 text-gray-600'>Cash Cash</p>
+              <h3 className='text-lg font-medium'>₹{ride?.fare} </h3>
+              <p className='text-sm -mt-1 text-gray-600'>Cash </p>
             </div>
           </div>
         </div>

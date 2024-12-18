@@ -1,5 +1,5 @@
 const { validationResult } = require("express-validator");
-const { createRide, getFare, confirmRide } = require("../services/ride.service");
+const { createRide, getFare, confirmRide, startRiding, endRide } = require("../services/ride.service");
 const { getAddressCoordinates, getCaptainInTheRadius } = require("../services/maps.services");
 const { sendMessageToSocketId } = require("../socket");
 const { Ride } = require("../models/ride.model");
@@ -66,4 +66,43 @@ const confirmUserRide = async(req,res)=>{
     }
 
 }
-module.exports = {createNewRide,calculateFare,confirmUserRide}
+const startRide = async(req,res)=>{
+    const errors = validationResult(req);
+    if(!errors.isEmpty()){
+        return res.status(400).json({ errors: errors.array() });
+    }
+    const {rideId,otp} = req.query;
+    try {
+        const startedRide = await startRiding({rideId,otp,captain:req.captain})
+        // console.log('startedRide',startedRide);
+        sendMessageToSocketId(startedRide.user.socketId,{
+            event:'ride-started',
+            data:startedRide
+        })
+        return res.status(200).json(startedRide)
+    } catch (error) {
+        console.log(error);
+        return res.status(500).json({ message: error.message });
+    }
+}
+const endUserRide = async(req,res)=>{
+    console.log('inside end user method');
+    const errors = validationResult(req);
+    if(!errors.isEmpty()){
+        return res.status(400).json({ errors: errors.array() });
+    }
+    const {rideId} = req.body;
+    try {
+        const endedRide = await endRide({rideId,captain:req.captain})
+        // console.log('endedRide',endedRide);
+        sendMessageToSocketId(endedRide.user.socketId,{
+            event:'ride-finished',
+            data:endedRide
+        })
+        return res.status(200).json(endedRide)
+    } catch (error) {
+        console.log(error);
+        return res.status(500).json({ message: error.message });
+    }
+}
+module.exports = {createNewRide,calculateFare,confirmUserRide,startRide,endUserRide}

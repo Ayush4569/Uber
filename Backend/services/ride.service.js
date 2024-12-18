@@ -69,4 +69,32 @@ const confirmRide = async({rideId,captain})=>{
   }
   return ride
 }
-module.exports = { createRide,getFare,confirmRide };
+const startRiding = async({rideId,captain,otp})=>{
+  const confirmedRide = await Ride.findOne({_id:rideId}).populate('user').populate('captain').select('+otp');
+  // console.log('confirmRide',confirmedRide);
+  if(!confirmedRide || confirmedRide.status != 'accepted'){
+    throw new Error("Ride not accepeted yet");
+  }
+  if(otp != confirmedRide.otp){
+    throw new Error("Invalid otp");
+  }
+  await Ride.findByIdAndUpdate(rideId,
+    {
+      status:'ongoing'
+    }
+  )
+  return confirmedRide
+}
+const endRide = async({rideId,captain})=>{
+  const ride = await Ride.findOne({_id:rideId,captain:captain._id}).populate('user').populate('captain').select('+otp');
+  if(!ride){
+    throw new Error("No such ride exists");
+  }
+  if(ride.status !='ongoing'){
+    throw new Error("Ride is not ongoing");
+  }
+  await Ride.findOneAndUpdate({_id:rideId},{status:'completed'})
+  return ride
+
+}
+module.exports = { createRide,getFare,confirmRide,startRiding,endRide };

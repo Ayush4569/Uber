@@ -9,7 +9,9 @@ import LookingForDriver from "../components/LookingForDriver";
 import WaitingForDriver from "../components/WaitingForDriver";
 import axios from "axios";
 import { useSocket } from "../context/SocketContext";
-import  { UserDataContext } from "../context/userContext";
+import { UserDataContext } from "../context/userContext";
+import { useNavigate } from "react-router-dom";
+import LiveTracking from "../components/LiveTracking";
 const Home = () => {
   const [pickup, setPickup] = useState("");
   const [pickupSuggestions, setPickupSuggestions] = useState(null);
@@ -29,21 +31,26 @@ const Home = () => {
   const vehicleFoundRef = useRef(null);
   const [waitingForDriverPanel, setWaitingForDriverPanel] = useState(false);
   const waitingForDriverRef = useRef(null);
-  const {socket} = useSocket()
+  const { socket } = useSocket();
   const { user } = useContext(UserDataContext);
-  const [rideDetails,setRideDetails] = useState(null);
+  const [rideDetails, setRideDetails] = useState(null);
+  const navigate = useNavigate();
   const submitHandler = async (e) => {
     e.preventDefault();
   };
   useEffect(() => {
-    socket.emit('join',{userType:'user',userId:user?._id})
-  }, [])
-  
-  socket.on('confirm-ride',(rideDetails)=>{
-    console.log('in socket');
-    setWaitingForDriverPanel(true)
-    setRideDetails(rideDetails)
-  })
+    socket.emit("join", { userType: "user", userId: user?._id });
+  }, []);
+
+  socket.on("confirm-ride", (rideDetails) => {
+    console.log("in socket");
+    setWaitingForDriverPanel(true);
+    setRideDetails(rideDetails);
+  });
+
+  socket.on("ride-started", (ride) => {
+    navigate("/riding", { state: { ride } });
+  });
 
   useGSAP(
     function () {
@@ -141,7 +148,7 @@ const Home = () => {
         }
       );
       if (response.statusText == "OK") {
-        console.log(response.data);
+        // console.log(response.data);
         setPickupSuggestions(response.data);
       }
     } catch (error) {
@@ -161,7 +168,7 @@ const Home = () => {
         }
       );
       if (response.statusText == "OK") {
-        console.log(response.data);
+        // console.log(response.data);
         setDestinationSuggestions(response.data);
       }
     } catch (error) {
@@ -196,7 +203,7 @@ const Home = () => {
         {
           pickup,
           destination,
-          vehicleType
+          vehicleType,
         },
         {
           headers: {
@@ -206,7 +213,7 @@ const Home = () => {
       );
       console.log(response.data);
     } catch (error) {
-      console.log('Error creating ride',error);
+      console.log("Error creating ride", error);
     }
   }
   return (
@@ -221,6 +228,7 @@ const Home = () => {
           className="h-full w-full object-cover"
           src="https://miro.medium.com/v2/resize:fit:1400/0*gwMx05pqII5hbfmX.gif"
         />
+        {/* <LiveTracking/> */}
       </div>
       <div className="flex flex-col justify-end h-screen absolute top-0 w-full ">
         <div className="bg-white p-6 h-[30%] relative">
@@ -295,7 +303,7 @@ const Home = () => {
         className="fixed w-full z-10 bg-white bottom-0 translate-y-full px-3 py-6 pt-12"
       >
         <ConfirmRide
-          createRide = {createRide}
+          createRide={createRide}
           pickup={pickup}
           destination={destination}
           fare={fare}
@@ -311,10 +319,10 @@ const Home = () => {
         className="fixed w-full z-10 bg-white bottom-0 translate-y-full px-3 py-6 pt-12"
       >
         <LookingForDriver
-           pickup={pickup}
-           destination={destination}
-           fare={fare}
-           vehicleType={vehicleType}
+          pickup={pickup}
+          destination={destination}
+          fare={fare}
+          vehicleType={vehicleType}
           setVehicleFoundPanel={setVehicleFoundPanel}
           setConfirmRidePanel={setConfirmRidePanel}
         />
@@ -322,10 +330,12 @@ const Home = () => {
       {/* waiting for drivers div */}
       <div
         ref={waitingForDriverRef}
-       
         className="fixed w-full z-10 bg-white bottom-0 translate-y-full px-3 py-6 pt-12"
       >
-        <WaitingForDriver  ride = {rideDetails} waitingForDriverPanel={waitingForDriverPanel} />
+        <WaitingForDriver
+          ride={rideDetails}
+          waitingForDriverPanel={waitingForDriverPanel}
+        />
       </div>
     </div>
   );

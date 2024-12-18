@@ -1,5 +1,5 @@
 import React, { useState, useRef, useEffect } from "react";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import CaptainDetails from "../components/CaptainDetails";
 import RidePopup from "../components/RidePopup";
 import { useGSAP } from "@gsap/react";
@@ -14,7 +14,7 @@ const CaptainHome = () => {
   const ridePopupPanelRef = useRef(null);
   const [ride,setRide] = useState(null)
   const confirmridePopupPanelRef = useRef(null);
- 
+  const navigate = useNavigate()
   useGSAP(
     function () {
       if (ridePopupPanel) {
@@ -69,19 +69,21 @@ const CaptainHome = () => {
   setRide(data)
   setRidePopupPanel(true)
   })
+  // confirm ride when a captain accepts the incoming ride
   async function confirmRide() {
 
     const response = await axios.post(`${import.meta.env.VITE_BASE_URL}/rides/confirm`, {
         rideId: ride._id,
-        captainId: captain._id,
     }, {
         headers: {
             Authorization: `Bearer ${localStorage.getItem('token')}`
         }
     })
+    if(response.statusText == "OK"){
+      setRidePopupPanel(false)
+    }
+} 
 
-    setRidePopupPanel(false)
-}
   return (
     <div className="h-screen">
       <div className="fixed flex w-full justify-between items-center p-6 ">
@@ -123,6 +125,7 @@ const CaptainHome = () => {
         className="fixed w-full h-screen z-10 bg-white bottom-0 px-3 py-10 pt-12"
       >
         <ConfirmRidePopup
+        ride={ride}
           setConfirmRidePopupPanel={setConfirmRidePopupPanel}
           setRidePopupPanel={setRidePopupPanel}
         />
