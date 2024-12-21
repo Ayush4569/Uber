@@ -17,7 +17,7 @@ const LocationSearchPanel = ({
     // setPanelOpen(false), setVehicleOpenPanel(true);
   }
   return (
-    <div className="border border-red-600 mt-6">
+    <div className="mt-6">
       {suggestions?.map((location) => (
         <div
           onClick={() => {

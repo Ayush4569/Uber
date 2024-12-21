@@ -9,6 +9,7 @@ const authUser = async (req, res, next) => {
   if (!token) {
     return res.status(401).json({ message: "Unauthorized" });
   }
+  // console.log('token',token);
   // check whether the token is blacklisted or not if blacklisted then dont give authentication access
   const isBlackListedToken = await BlackListToken.findOne({token})
   if(isBlackListedToken){
@@ -16,9 +17,12 @@ const authUser = async (req, res, next) => {
   }
   try {
     const decodedToken = jwt.verify(token, process.env.JWT_SECRET);
+    // console.log('decoded',decodedToken);
     const user = await User.findById(decodedToken._id); // decodedToken is nothing but _id which we created using jwt.sign()
-
+    // console.log('user',user);
+    
     req.user = user;
+    // console.log('req.user-',req.user);
     return next();
   } catch (error) {
     return res.status(401).json({ message: "Unauthorized token expired" });

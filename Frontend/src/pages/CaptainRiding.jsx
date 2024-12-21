@@ -4,6 +4,7 @@ import React,{useState,useRef} from "react";
 import { useLocation } from "react-router-dom";
 import { Link } from "react-router-dom";
 import FinishRide from "./FinishRide";
+import LiveTracking from "../components/LiveTracking";
 
 const CaptainRiding = ({}) => {
 const [finishRidePanel, setFinishRidePanel] = useState(false)
@@ -41,10 +42,11 @@ const finishRidePanelRef = useRef(null)
       </div>
 
       <div className="h-4/5">
-        <img
+        {/* <img
           className="h-full w-full object-cover"
           src="https://miro.medium.com/v2/resize:fit:1400/0*gwMx05pqII5hbfmX.gif"
-        />
+        /> */}
+        <LiveTracking className='h-full z-[-1]'/>
       </div>
       <div onClick={()=>{setFinishRidePanel(true)}} className="h-1/5 p-6 flex items-center justify-between relative bg-yellow-400 pt-10">
         <h5

@@ -8,13 +8,14 @@ import ConfirmRidePopup from "../components/ConfirmRidePopup";
 import { useCaptain } from "../context/CaptainContext";
 import { useSocket } from "../context/SocketContext";
 import axios from "axios";
+import LiveTracking from "../components/LiveTracking";
 const CaptainHome = () => {
   const [ridePopupPanel, setRidePopupPanel] = useState(false);
   const [confirmridePopupPanel, setConfirmRidePopupPanel] = useState(false);
   const ridePopupPanelRef = useRef(null);
-  const [ride,setRide] = useState(null)
+  const [ride, setRide] = useState(null);
   const confirmridePopupPanelRef = useRef(null);
-  const navigate = useNavigate()
+  const navigate = useNavigate();
   useGSAP(
     function () {
       if (ridePopupPanel) {
@@ -43,6 +44,7 @@ const CaptainHome = () => {
     },
     [confirmridePopupPanel]
   );
+
   const { captain } = useCaptain();
   const { socket } = useSocket();
   useEffect(() => {
@@ -60,29 +62,50 @@ const CaptainHome = () => {
         });
       }
     };
-    const locationInterval = setInterval(updateLocation, 10000)
-    updateLocation()
+    const locationInterval = setInterval(updateLocation, 10000);
+    updateLocation();
     return () => clearInterval(locationInterval);
   }, []);
-  socket.on('new-ride',(data)=>{
-  console.log(data);
-  setRide(data)
-  setRidePopupPanel(true)
-  })
+  socket.on("new-ride", (data) => {
+    console.log(data);
+    setRide(data);
+    setRidePopupPanel(true);
+  });
   // confirm ride when a captain accepts the incoming ride
   async function confirmRide() {
-
-    const response = await axios.post(`${import.meta.env.VITE_BASE_URL}/rides/confirm`, {
+    const response = await axios.post(
+      `${import.meta.env.VITE_BASE_URL}/rides/confirm`,
+      {
         rideId: ride._id,
-    }, {
+      },
+      {
         headers: {
-            Authorization: `Bearer ${localStorage.getItem('token')}`
-        }
-    })
-    if(response.statusText == "OK"){
-      setRidePopupPanel(false)
+          Authorization: `Bearer ${localStorage.getItem("token")}`,
+        },
+      }
+    );
+    if (response.statusText == "OK") {
+      setRidePopupPanel(false);
     }
-} 
+  }
+  async function logoutCaptain() {
+
+    try {
+      const response = await axios.get(
+        `${import.meta.env.VITE_BASE_URL}/captains/logout`,
+        {
+          headers: {
+            Authorization: `Bearer ${localStorage.getItem("token")}`,
+          },
+        }
+      );
+      if(response.statusText === 'OK'){
+        navigate('/captain-login')
+      }
+    } catch (error) {
+      console.log(error);
+    }
+  }
 
   return (
     <div className="h-screen">
@@ -92,21 +115,15 @@ const CaptainHome = () => {
           src="https://logos-world.net/wp-content/uploads/2020/05/Uber-Logo.png"
           alt="uber"
         />
-        <Link
-          to="/home"
-          className="h-10 w-10 rounded-full bg-white flex items-center justify-center"
-        >
+        <button onClick={logoutCaptain} className="h-10 w-10 rounded-full bg-white flex items-center justify-center">
           <i className="text-lg font-medium ri-logout-box-r-line"></i>
-        </Link>
+        </button>
       </div>
 
-      <div className="h-3/5">
-        <img
-          className="h-full w-full object-cover"
-          src="https://miro.medium.com/v2/resize:fit:1400/0*gwMx05pqII5hbfmX.gif"
-        />
+      <div className="h-[70%]">
+        <LiveTracking className="h-full z-[-1]" />
       </div>
-      <div className="h-2/5 p-6 ">
+      <div className={`h-2/5 p-6 `}>
         <CaptainDetails captain={captain} />
       </div>
       <div
@@ -114,10 +131,10 @@ const CaptainHome = () => {
         className="fixed w-full z-10 bg-white bottom-0 px-3 py-10 pt-12"
       >
         <RidePopup
-          ride = {ride}
+          ride={ride}
           setRidePopupPanel={setRidePopupPanel}
           setConfirmRidePopupPanel={setConfirmRidePopupPanel}
-          confirmRide = {confirmRide}
+          confirmRide={confirmRide}
         />
       </div>
       <div
@@ -125,7 +142,7 @@ const CaptainHome = () => {
         className="fixed w-full h-screen z-10 bg-white bottom-0 px-3 py-10 pt-12"
       >
         <ConfirmRidePopup
-        ride={ride}
+          ride={ride}
           setConfirmRidePopupPanel={setConfirmRidePopupPanel}
           setRidePopupPanel={setRidePopupPanel}
         />

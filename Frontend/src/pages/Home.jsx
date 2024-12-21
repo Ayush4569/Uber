@@ -43,7 +43,6 @@ const Home = () => {
   }, []);
 
   socket.on("confirm-ride", (rideDetails) => {
-    console.log("in socket");
     setWaitingForDriverPanel(true);
     setRideDetails(rideDetails);
   });
@@ -57,8 +56,6 @@ const Home = () => {
       if (panelOpen) {
         gsap.to(panelRef.current, {
           height: "70%",
-          // padding:24
-          // opacity:1
         });
         gsap.to(panelCloseRef.current, {
           opacity: 1,
@@ -216,20 +213,41 @@ const Home = () => {
       console.log("Error creating ride", error);
     }
   }
+  async function logoutUser(){
+    console.log('hii');
+    try {
+      const response = await axios.get(
+        `${import.meta.env.VITE_BASE_URL}/users/logout`,
+        {
+          headers: {
+            Authorization: `Bearer ${localStorage.getItem("token")}`,
+          },
+        }
+      );
+      if(response.statusText === 'OK'){
+        navigate('/login')
+      }
+    } catch (error) {
+      console.log(error);
+    }
+  }
   return (
     <div className="h-screen relative overflow-y-hidden">
-      <img
-        className="w-16 absolute left-5 top-5"
-        src="https://logos-world.net/wp-content/uploads/2020/05/Uber-Logo.png"
-        alt="uber"
-      />
-      <div className="h-screen w-screen">
+      <div className="fixed flex w-full justify-between items-center p-6 ">
         <img
-          className="h-full w-full object-cover"
-          src="https://miro.medium.com/v2/resize:fit:1400/0*gwMx05pqII5hbfmX.gif"
+          className="w-16"
+          src="https://logos-world.net/wp-content/uploads/2020/05/Uber-Logo.png"
+          alt="uber"
         />
-        {/* <LiveTracking/> */}
+        <button onClick={logoutUser} className="h-10 w-10 rounded-full bg-white flex items-center justify-center">
+          <i className="text-lg font-medium ri-logout-box-r-line"></i>
+        </button>
       </div>
+     
+      <div className="h-screen w-screen">
+        <LiveTracking className='h-[70%] z-[-1]'/>
+      </div>
+      {/* loction search panel */}
       <div className="flex flex-col justify-end h-screen absolute top-0 w-full ">
         <div className="bg-white p-6 h-[30%] relative">
           <h5

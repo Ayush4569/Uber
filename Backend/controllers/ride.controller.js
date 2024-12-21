@@ -12,11 +12,12 @@ const createNewRide = async(req,res)=>{
     const  {pickup,destination,vehicleType} = req.body;
     try {
         const ride = await createRide({user:req.user._id,pickup,destination,vehicleType})
+        console.log('ride');
          res.status(200).json(ride)
          const pickupCoordinates = await getAddressCoordinates(pickup);
         //  console.log("pickup:",pickupCoordinates);
          const captainsInRadius = await getCaptainInTheRadius(pickupCoordinates.lat,pickupCoordinates.lng,2)
-        //  console.log("captains",captainsInRadius);
+         console.log("captains",captainsInRadius);
          ride.otp  = null;
          const rideWithUserInfo = await Ride.findOne({_id:ride._id}).populate("user")
          captainsInRadius.map(captain=>{
@@ -86,7 +87,6 @@ const startRide = async(req,res)=>{
     }
 }
 const endUserRide = async(req,res)=>{
-    console.log('inside end user method');
     const errors = validationResult(req);
     if(!errors.isEmpty()){
         return res.status(400).json({ errors: errors.array() });

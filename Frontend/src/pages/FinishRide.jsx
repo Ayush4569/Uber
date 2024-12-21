@@ -37,7 +37,7 @@ const FinishRide = ({ setFinishRidePanel, rideData }) => {
         <i className="text-3xl text-gray-200 ri-arrow-down-wide-line"></i>
       </h5>
 
-      <h3 className="text-2xl font-semibold mb-5">New Ride Available!</h3>
+      <h3 className="text-2xl font-semibold mb-5">Finish this ride</h3>
       <div className="flex items-center justify-between p-4 border-2 rounded-lg border-yellow-300 mt-4">
         <div className="flex items-center justify-between gap-3">
           <img
