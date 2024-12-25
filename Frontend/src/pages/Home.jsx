@@ -29,7 +29,7 @@ const Home = () => {
   const confirmRideRef = useRef(null);
   const [vehicleFoundPanel, setVehicleFoundPanel] = useState(false);
   const vehicleFoundRef = useRef(null);
-  const [waitingForDriverPanel, setWaitingForDriverPanel] = useState(true);
+  const [waitingForDriverPanel, setWaitingForDriverPanel] = useState(false);
   const waitingForDriverRef = useRef(null);
   const { socket } = useSocket();
   const { user } = useContext(UserDataContext);
@@ -80,11 +80,11 @@ const Home = () => {
     function () {
       if (vehicleOpenPanel) {
         gsap.to(vehicleRef.current, {
-          transform: "translateY(0)",
+          transform: "translateY(-10%)",
         });
       } else {
         gsap.to(vehicleRef.current, {
-          transform: "translateY(100%)",
+          transform: "translateY(110%)",
         });
       }
     },
@@ -95,11 +95,11 @@ const Home = () => {
     function () {
       if (confirmRidePanel) {
         gsap.to(confirmRideRef.current, {
-          transform: "translateY(0)",
+          transform: "translateY(-10%)",
         });
       } else {
         gsap.to(confirmRideRef.current, {
-          transform: "translateY(100%)",
+          transform: "translateY(110%)",
         });
       }
     },
@@ -110,11 +110,11 @@ const Home = () => {
     function () {
       if (vehicleFoundPanel) {
         gsap.to(vehicleFoundRef.current, {
-          transform: "translateY(0)",
+          transform: "translateY(-10%)",
         });
       } else {
         gsap.to(vehicleFoundRef.current, {
-          transform: "translateY(100%)",
+          transform: "translateY(110%)",
         });
       }
     },
@@ -124,7 +124,7 @@ const Home = () => {
     function () {
       if (waitingForDriverPanel) {
         gsap.to(waitingForDriverRef.current, {
-          transform: "translateY(0)",
+          transform: "translateY(-10%)",
         });
       } else {
         gsap.to(waitingForDriverRef.current, {
@@ -232,11 +232,7 @@ const Home = () => {
       <div className="lg:h-screen lg:flex lg:flex-row-reverse lg:gap-6 lg:p-16">
         {/* map */}
       <div className="h-screen w-screen lg:w-[70%]">
-        <img
-          className="h-full w-full object-cover lg:h-[85%]"
-          src="https://miro.medium.com/v2/resize:fit:1400/0*gwMx05pqII5hbfmX.gif"
-        />
-        {/* <LiveTracking className='h-[70%] z-[-1] lg:h-[85%]'/> */}
+        <LiveTracking className='h-[70%] z-[-1] lg:h-[85%]'/>
       </div>
       {/* loction search panel */}
       <div className="flex flex-col justify-end h-screen absolute top-0 w-full lg:w-[30%] lg:h-auto lg:relative">
@@ -345,7 +341,7 @@ const Home = () => {
       <div
         ref={waitingForDriverRef}
         className="fixed w-full z-10 bg-white bottom-0 translate-y-full px-3 py-6 pt-12
-        lg:pt-0 lg:py-0 sm:pt-4 sm:py-0 md:pt-4 md:py-0 lg:w-1/2"
+        lg:pt-0 lg:py-0 sm:pt-4 sm:py-0 md:pt-4 md:py-0"
       >
         <WaitingForDriver
           ride={rideDetails}

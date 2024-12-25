@@ -34,20 +34,20 @@ const WaitingForDriver = ({ waitingForDriverPanel, ride }) => {
             <i className="ri-map-pin-user-fill lg:text-2xl sm:text-2xl"></i>
             <div>
               <h3 className="text-lg font-medium lg:text-xl sm:text-xl">562/11-A</h3>
-              <p className="text-sm -mt-1 text-gray-600 lg:text-xl sm:text-xl xs:text-base">{ride?.pickup || 'thakurli'}</p>
+              <p className="text-sm -mt-1 text-gray-600 lg:text-xl sm:text-xl xs:text-base">{ride?.pickup}</p>
             </div>
           </div>
           <div className="flex items-center gap-5 p-3 border-b-2">
             <i className="text-lg ri-map-pin-2-fill lg:text-2xl sm:text-2xl"></i>
             <div>
               <h3 className="text-lg font-medium lg:text-xl sm:text-xl">562/11-A</h3>
-              <p className="text-sm -mt-1 text-gray-600 lg:text-xl sm:text-xl xs:text-base">{ride?.destination || 'thane'}</p>
+              <p className="text-sm -mt-1 text-gray-600 lg:text-xl sm:text-xl xs:text-base">{ride?.destination}</p>
             </div>
           </div>
           <div className="flex items-center gap-5 p-3">
             <i className="ri-currency-line lg:text-2xl sm:text-2xl"></i>
             <div>
-              <h3 className="text-lg font-medium lg: sm:">₹{ride?.fare[vehicleType] || '200'}</h3>
+              <h3 className="text-lg font-medium lg: sm:">₹{ride?.fare}</h3>
               <p className="text-sm -mt-1 text-gray-600 lg:text-xl sm:text-xl xs:text-base">Cash </p>
             </div>
           </div>

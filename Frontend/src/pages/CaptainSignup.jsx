@@ -62,7 +62,7 @@ const CaptainSignup = () => {
             src="https://www.svgrepo.com/show/505031/uber-driver.svg"
             alt="uber"
           />
-          <form onSubmit={(e) => submitHandler(e)}>
+          <form className="border lg:p-8" onSubmit={(e) => submitHandler(e)}>
             <h3 className="text-base font-medium mb-2">
               What's our Captain's name{" "}
             </h3>
@@ -71,7 +71,8 @@ const CaptainSignup = () => {
                 required
                 type="text"
                 placeholder="First name"
-                className="bg-[#eeeeee] rounded px-4 py-2 border text-base placeholder:text-sm w-1/2"
+                className="bg-[#eeeeee] rounded px-4 py-2 border text-base placeholder:text-sm w-1/2 lg:placeholder:text-lg 
+                xs:placeholder:text-lg sm:placeholder:text-lg md:placeholder:text-lg"
                 value={firstName}
                 onChange={(e) => setFirstName(e.target.value)}
               />
@@ -79,7 +80,8 @@ const CaptainSignup = () => {
                 required
                 type="text"
                 placeholder="Last name"
-                className="bg-[#eeeeee]  rounded px-4 py-2 border text-base placeholder:text-sm  w-1/2"
+                className="bg-[#eeeeee] rounded px-4 py-2 border text-base placeholder:text-sm w-1/2 lg:placeholder:text-lg 
+                xs:placeholder:text-lg sm:placeholder:text-lg md:placeholder:text-lg"
                 value={lastName}
                 onChange={(e) => setLastName(e.target.value)}
               />
@@ -92,7 +94,8 @@ const CaptainSignup = () => {
               required
               type="text"
               placeholder="Enter your email"
-              className="bg-[#eeeeee] mb-4 rounded px-4 py-2 border text-base placeholder:text-sm  w-full"
+              className="bg-[#eeeeee] mb-4 rounded px-4 py-2 border text-base placeholder:text-sm w-full lg:placeholder:text-lg 
+                xs:placeholder:text-lg sm:placeholder:text-lg md:placeholder:text-lg xs:w-1/2"
               value={email}
               onChange={(e) => setEmail(e.target.value)}
             />
@@ -101,7 +104,8 @@ const CaptainSignup = () => {
               required
               type="password"
               placeholder="Enter your password"
-              className="bg-[#eeeeee] mb-4 rounded px-4 py-2 border text-base placeholder:text-sm w-full"
+              className="bg-[#eeeeee] mb-4 rounded px-4 py-2 border text-base placeholder:text-sm w-full lg:placeholder:text-lg 
+                xs:placeholder:text-lg sm:placeholder:text-lg md:placeholder:text-lg  xs:w-1/2"
               value={password}
               onChange={(e) => setPassword(e.target.value)}
             />
@@ -159,7 +163,7 @@ const CaptainSignup = () => {
             <div>
             <input
                 required
-                className="bg-[#eeeeee] w-full mb-4 rounded-lg px-4 py-2 border text-lg placeholder:text-base"
+                className="bg-[#eeeeee] w-full mb-4 rounded-lg px-4 py-2 border text-lg placeholder:text-base xs:w-1/2"
                 type="text"
                 placeholder="Vehicle Name"
                 value={vehicleName}
@@ -169,9 +173,11 @@ const CaptainSignup = () => {
               />
             </div>
 
-            <button className="bg-[#111] rounded text-white mb-3 px-4 py-2 text-lg w-full placeholder:text-base">
+            <div className="w-full ">
+            <button className="bg-[#111] cursor-pointer rounded text-white mb-3 px-4 py-2 text-lg w-full placeholder:text-base xs:w-[40%] sm:w-1/3 md:w-[28%] lg:w-[18%] lg:rounded-lg hover:bg-white hover:text-black">
               Register
             </button>
+          </div>
           </form>
           <p className="text-center">
             Already have an account ?{" "}
@@ -182,7 +188,6 @@ const CaptainSignup = () => {
         </div>
         <div>
           <p className="text-[10px] text-center mt-6 leading-tight">
-            {/* By proceeding,you consent to get calls, Whatsapp or SMS messages,including by automated means,from Uber and its affilated to the number provided. */}
             This site is protected by reCAPTCHA and the{" "}
             <span className="underline"> Google Privacy Policy</span> and{" "}
             <span className="underline"> Terms of Service apply</span>.

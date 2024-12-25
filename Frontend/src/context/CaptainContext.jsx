@@ -16,7 +16,7 @@ export const CaptainContext = ({ children }) => {
         }
       })
       .catch((err) => {
-        // console.log('err at captain context',err);
+        console.log('err at captain context',err);
         setCaptain(null);
       })
       .finally(() => {

@@ -49,14 +49,16 @@ const UserSignup = () => {
             src="https://logos-world.net/wp-content/uploads/2020/05/Uber-Logo.png"
             alt="uber"
           />
-          <form onSubmit={(e) => submitHandler(e)}>
-            <h3 className="text-base font-medium mb-2">What's your name </h3>
-            <div className="flex gap-2 mb-6">
+          <form className="lg:mx-auto lg:p-8" onSubmit={(e) => submitHandler(e)}>
+            <h3 className="text-base font-medium mb-2 text-center lg:text-xl">What's your name </h3>
+            <div className="flex gap-2 mb-6 lg:flex-col lg:gap-6 lg:justify-center lg:items-center xs:flex-col xs:gap-6 xs:justify-center xs:items-center md:flex-col md:gap-6 md:justify-center md:items-center">
               <input
                 required
                 type="text"
                 placeholder="First name"
-                className="bg-[#eeeeee] rounded px-4 py-2 border text-base placeholder:text-sm w-1/2"
+                className="bg-[#eeeeee] rounded px-4 py-2 border text-base placeholder:text-sm w-1/2 lg:w-[40%] text-center lg:placeholder:text-lg 
+                xs:placeholder:text-lg sm:placeholder:text-lg md:placeholder:text-lg
+                xs:w-[80%] sm:w-[65%] md:w-[55%] xs:rounded-lg"
                 value={firstName}
                 onChange={(e) => setFirstName(e.target.value)}
               />
@@ -64,33 +66,50 @@ const UserSignup = () => {
                 required
                 type="text"
                 placeholder="Last name"
-                className="bg-[#eeeeee]  rounded px-4 py-2 border text-base placeholder:text-sm  w-1/2"
+                className="bg-[#eeeeee]  rounded px-4 py-2 border text-base placeholder:text-sm w-1/2 lg:w-[40%] text-center lg:placeholder:text-lg 
+                xs:placeholder:text-lg sm:placeholder:text-lg md:placeholder:text-lg
+                xs:w-[80%] sm:w-[65%] md:w-[55%] xs:rounded-lg"
                 value={lastName}
                 onChange={(e) => setLastName(e.target.value)}
               />
             </div>
 
-            <h3 className="text-base font-medium mb-2">What's your email </h3>
+            <div className="xs:flex xs:flex-col xs:justify-center xs:items-center w-full ">
+            <h3 className="text-xl font-medium mb-2 xs:text-center">
+              What's your email
+            </h3>
             <input
               required
-              type="text"
+              type="email"
               placeholder="Enter your email"
-              className="bg-[#eeeeee] mb-7 rounded px-4 py-2 border text-base placeholder:text-sm  w-full"
+              className="bg-[#eeeeee] mb-7 rounded px-4 py-2 text-lg w-full xs:w-[80%] text-center xs:rounded-lg sm:w-[65%] md:w-[55%] lg:w-[40%]"
               value={email}
-              onChange={(e) => setEmail(e.target.value)}
+              onChange={(e) => {
+                setEmail(e.target.value);
+              }}
             />
-            <h3 className="text-base font-medium mb-2">Enter Password</h3>
+          </div>
+
+          <div className="xs:flex xs:flex-col xs:justify-center xs:items-center w-full ">
+            <h3 className="text-xl font-medium mb-2 xs:text-center">
+              Enter Password
+            </h3>
             <input
               required
               type="password"
               placeholder="Enter your password"
-              className="bg-[#eeeeee] mb-7 rounded px-4 py-2 border text-base placeholder:text-sm w-full"
+              className="bg-[#eeeeee] mb-7 rounded px-4 py-2 text-lg w-full xs:w-[80%] text-center xs:rounded-lg sm:w-[65%] md:w-[55%] lg:w-[40%]"
               value={password}
-              onChange={(e) => setPassword(e.target.value)}
+              onChange={(e) => {
+                setPassword(e.target.value);
+              }}
             />
-            <button className="bg-[#111] rounded text-white mb-3 px-4 py-2 text-lg w-full placeholder:text-base">
+          </div>
+             <div className="w-full xs:text-center">
+            <button className="bg-[#111] cursor-pointer rounded text-white mb-3 px-4 py-2 text-lg w-full placeholder:text-base xs:w-[40%] sm:w-1/3 md:w-[28%] lg:w-[18%] lg:rounded-lg hover:bg-white hover:text-black">
               Register
             </button>
+          </div>
           </form>
           <p className="text-center">
             Already have an account ?{" "}

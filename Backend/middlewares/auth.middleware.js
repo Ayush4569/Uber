@@ -30,22 +30,23 @@ const authUser = async (req, res, next) => {
 const authCaptain = async(req,res,next)=>{
   const token = req.cookies?.token || req.headers.authorization?.split(" ")[1];
   if (!token) {
-    return res.status(401).json({ message: "Unauthorized" });
+    return res.status(401).json({ message: "Unauthorized no token" });
   }
 
   const isBlackListedToken = await BlackListToken.findOne({token})
   if(isBlackListedToken){
-    return res.status(401).json({ message: "Unauthorized" });
+    return res.status(401).json({ message: "Unauthorized token blacklisted " });
   }
   try {
     const decodedToken = jwt.verify(token, process.env.JWT_SECRET);
     const captain = await Captain.findById(decodedToken._id); 
     if(!captain){
-      return res.status(401).json({ message: "Unauthorized" });
+      return res.status(401).json({ message: "No such user" });
     }
     req.captain = captain;
     return next();
   } catch (error) {
+    console.log(error);
     return res.status(401).json({ message: "Unauthorized token expired" });
   }
 }
