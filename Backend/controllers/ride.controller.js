@@ -12,12 +12,11 @@ const createNewRide = async(req,res)=>{
     const  {pickup,destination,vehicleType} = req.body;
     try {
         const ride = await createRide({user:req.user._id,pickup,destination,vehicleType})
-        console.log('ride');
          res.status(200).json(ride)
          const pickupCoordinates = await getAddressCoordinates(pickup);
         //  console.log("pickup:",pickupCoordinates);
          const captainsInRadius = await getCaptainInTheRadius(pickupCoordinates.lat,pickupCoordinates.lng,2)
-         console.log("captains",captainsInRadius);
+        //  console.log("captains",captainsInRadius);
          ride.otp  = null;
          const rideWithUserInfo = await Ride.findOne({_id:ride._id}).populate("user")
          captainsInRadius.map(captain=>{
@@ -53,8 +52,10 @@ const confirmUserRide = async(req,res)=>{
         return res.status(400).json({ errors: errors.array() });
     }
     const {rideId} = req.body;
+    console.log('req.body',req.body);
     try {
         const confirmedRide = await confirmRide({rideId,captain:req.captain})
+        // console.log('confirmedRide',confirmedRide);
         // send msg to user that their ride is accepted
         sendMessageToSocketId(confirmedRide.user.socketId,{
             event:'confirm-ride',
@@ -97,7 +98,6 @@ const endUserRide = async(req,res)=>{
         // console.log('endedRide',endedRide);
         sendMessageToSocketId(endedRide.user.socketId,{
             event:'ride-finished',
-            data:endedRide
         })
         return res.status(200).json(endedRide)
     } catch (error) {

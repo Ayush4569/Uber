@@ -9,6 +9,7 @@ const CaptainSignup = () => {
   const [firstName, setFirstName] = useState("");
   const [lastName, setLastName] = useState("");
 
+  const [vehicleName, setVehicleName] = useState("");
   const [vehicleColor, setVehicleColor] = useState("");
   const [vehiclePlate, setVehiclePlate] = useState("");
   const [vehicleCapacity, setVehicleCapacity] = useState("");
@@ -26,6 +27,7 @@ const CaptainSignup = () => {
       email,
       password,
       vehicle: {
+        name:vehicleName,
         color: vehicleColor,
         plate: vehiclePlate,
         capacity: vehicleCapacity,
@@ -43,6 +45,7 @@ const CaptainSignup = () => {
 
     setEmail('')
     setFirstName('')
+    setVehicleName('')
     setLastName('')
     setPassword('')
     setVehicleColor('')
@@ -63,7 +66,7 @@ const CaptainSignup = () => {
             <h3 className="text-base font-medium mb-2">
               What's our Captain's name{" "}
             </h3>
-            <div className="flex gap-2 mb-6">
+            <div className="flex gap-2 mb-4">
               <input
                 required
                 type="text"
@@ -89,7 +92,7 @@ const CaptainSignup = () => {
               required
               type="text"
               placeholder="Enter your email"
-              className="bg-[#eeeeee] mb-7 rounded px-4 py-2 border text-base placeholder:text-sm  w-full"
+              className="bg-[#eeeeee] mb-4 rounded px-4 py-2 border text-base placeholder:text-sm  w-full"
               value={email}
               onChange={(e) => setEmail(e.target.value)}
             />
@@ -98,13 +101,13 @@ const CaptainSignup = () => {
               required
               type="password"
               placeholder="Enter your password"
-              className="bg-[#eeeeee] mb-7 rounded px-4 py-2 border text-base placeholder:text-sm w-full"
+              className="bg-[#eeeeee] mb-4 rounded px-4 py-2 border text-base placeholder:text-sm w-full"
               value={password}
               onChange={(e) => setPassword(e.target.value)}
             />
 
             <h3 className="text-lg font-medium mb-2">Vehicle Information</h3>
-            <div className="flex gap-4 mb-7">
+            <div className="flex gap-4 mb-4">
               <input
                 required
                 className="bg-[#eeeeee] w-1/2 rounded-lg px-4 py-2 border text-lg placeholder:text-base"
@@ -126,7 +129,7 @@ const CaptainSignup = () => {
                 }}
               />
             </div>
-            <div className="flex gap-4 mb-7">
+            <div className="flex gap-4 mb-4">
               <input
                 required
                 className="bg-[#eeeeee] w-1/2 rounded-lg px-4 py-2 border text-lg placeholder:text-base"
@@ -139,7 +142,7 @@ const CaptainSignup = () => {
               />
               <select
                 required
-                className="bg-[#eeeeee] w-1/2 rounded-lg px-4 py-2 border text-lg placeholder:text-base"
+                className="bg-[#eeeeee] w-1/2 rounded-lg px-4 py-2 border text-md placeholder:text-base"
                 value={vehicleType}
                 onChange={(e) => {
                   setVehicleType(e.target.value);
@@ -152,6 +155,18 @@ const CaptainSignup = () => {
                 <option value="auto">Auto</option>
                 <option value="moto">Moto</option>
               </select>
+            </div>
+            <div>
+            <input
+                required
+                className="bg-[#eeeeee] w-full mb-4 rounded-lg px-4 py-2 border text-lg placeholder:text-base"
+                type="text"
+                placeholder="Vehicle Name"
+                value={vehicleName}
+                onChange={(e) => {
+                  setVehicleName(e.target.value);
+                }}
+              />
             </div>
 
             <button className="bg-[#111] rounded text-white mb-3 px-4 py-2 text-lg w-full placeholder:text-base">

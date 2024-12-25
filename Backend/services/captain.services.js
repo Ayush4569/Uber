@@ -9,10 +9,11 @@ async function createCaptain({
   plate,
   capacity,
   vehicleType,
+  vehicleName
 }) 
 {
   if (
-    [firstname, lastname, email, password, color, plate, vehicleType].some(
+    [firstname, lastname, email, password, color, plate, vehicleType,vehicleName].some(
       (field) => field?.trim() === "" || field == null
     ) &&
     !capacity
@@ -27,6 +28,7 @@ async function createCaptain({
     email,
     password,
     vehicle: {
+      name:vehicleName,
       color,
       plate,
       capacity,

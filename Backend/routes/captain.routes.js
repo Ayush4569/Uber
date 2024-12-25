@@ -14,6 +14,9 @@ router.post(
     body("password")
       .isLength({ min: 6 })
       .withMessage("Password must be atleast 3 characters long"),
+    body("vehicle.name")
+      .isLength({ min: 3 })
+      .withMessage("Vehicle Name must be atleast 3 characters long"),
     body("vehicle.color")
       .isLength({ min: 3 })
       .withMessage("Color must be atleast 3 characters long"),

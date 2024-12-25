@@ -11,9 +11,6 @@ export const SocketContextProvider = ({children})=>{
         console.log('disconnected to server');
      })
     }, [])
-
-
-
     return (
         <SocketContext.Provider value={{socket}}>
             {children}

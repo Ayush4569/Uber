@@ -10,7 +10,6 @@ function initializeSocket(server) {
       // origin: "http://localhost:5173",
       origin: "*",
       methods: ["GET", "POST"],
-      // credentials: true,
     },
   });
   io.on("connection", (socket) => {

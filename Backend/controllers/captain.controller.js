@@ -19,6 +19,7 @@ const registerCaptain = async (req, res, next) => {
     lastname: fullname.lastname,
     email,
     password: hashedPassword,
+    vehicleName:vehicle.name,
     color: vehicle.color,
     plate: vehicle.plate,
     capacity: vehicle.capacity,

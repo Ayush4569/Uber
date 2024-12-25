@@ -10,7 +10,10 @@ const rideRoutes = require('./routes/ride.routes.js')
 const cookieParser = require('cookie-parser')
 const app = express()
 connectDB()
-app.use(cors())
+app.use(cors({
+    origin: ["http://localhost:5173","https://wtdg54m4-5173.inc1.devtunnels.ms"] ,
+    credentials: true,              
+  }))
 app.use(express.json())
 app.use(express.urlencoded({extended:true}))
 app.use(cookieParser())

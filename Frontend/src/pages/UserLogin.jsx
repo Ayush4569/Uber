@@ -18,7 +18,6 @@ const UserLogin = () => {
         `${import.meta.env.VITE_BASE_URL}/users/login`,userData
       );
       if (response.status === 200) {
-        localStorage.setItem('token',response.data.token)
         setUser(response.data.user);
         navigate("/home");
       }

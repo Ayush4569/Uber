@@ -101,7 +101,7 @@ const UserSignup = () => {
         </div>
         <div>
           <p className="text-sm leading-tight">
-            {/* By proceeding,you consent to get calls, Whatsapp or SMS messages,including by automated means,from Uber and its affilated to the number provided. */}
+
             This site is protected by reCAPTCHA and the{" "}
             <span className="underline"> Google Privacy Policy</span> and{" "}
             <span className="underline"> Terms of Service apply</span>.

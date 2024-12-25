@@ -43,12 +43,15 @@ const createRide = async ({ user, pickup, destination, vehicleType }) => {
     throw new Error("All fields are required");
   }
   const fare = await getFare(pickup, destination);
+  const distanceTime = await getDistanceAndTime(pickup,destination)
   const ride = await Ride.create({
     user,
     pickup,
     destination,
     otp:generateOtp(6),
     fare: fare[vehicleType],
+    distance:Math.round(distanceTime.distance.value/1000),
+    duration:Math.round(distanceTime.duration.value/60)
   });
   return ride;
 };
@@ -70,7 +73,7 @@ const confirmRide = async({rideId,captain})=>{
   return ride
 }
 const startRiding = async({rideId,captain,otp})=>{
-  const confirmedRide = await Ride.findOne({_id:rideId}).populate('user').populate('captain').select('+otp');
+  const confirmedRide = await Ride.findOne({_id:rideId,captain:captain._id}).populate('user').populate('captain').select('+otp');
   // console.log('confirmRide',confirmedRide);
   if(!confirmedRide || confirmedRide.status != 'accepted'){
     throw new Error("Ride not accepeted yet");
@@ -86,7 +89,7 @@ const startRiding = async({rideId,captain,otp})=>{
   return confirmedRide
 }
 const endRide = async({rideId,captain})=>{
-  const ride = await Ride.findOne({_id:rideId,captain:captain._id}).populate('user').populate('captain').select('+otp');
+  const ride = await Ride.findOne({_id:rideId,captain:captain._id}).populate('user')
   if(!ride){
     throw new Error("No such ride exists");
   }

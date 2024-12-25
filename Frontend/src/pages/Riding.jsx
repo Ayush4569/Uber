@@ -17,10 +17,14 @@ const Riding = () => {
      <Link to='/home' className='fixed top-2 right-2 h-10 w-10 rounded-full bg-white flex items-center justify-center'>
      <i className="text-lg font-medium ri-home-4-line"></i>
      </Link>
-     <div className='h-1/2'>
-        <LiveTracking className='h-full z-[-1]'/>
+     <div className='h-[65%]'>
+     <img
+          className="h-full w-full object-cover"
+          src="https://miro.medium.com/v2/resize:fit:1400/0*gwMx05pqII5hbfmX.gif"
+        />
+        {/* <LiveTracking className='h-full z-[-1]'/> */}
      </div>
-     <div className='h-1/2 p-4'>
+     <div className='h-[35%] p-4'>
      <div className='flex items-center justify-between'>
         <img className='h-12' src="https://swyft.pl/wp-content/uploads/2023/05/how-many-people-can-a-uberx-take.jpg" alt="" />
         <div className='text-right'>
@@ -48,7 +52,7 @@ const Riding = () => {
           </div>
         </div>
       </div>
-      <button className='w-full mt-5 bg-green-600 text-white font-semibold p-2 rounded-lg'> Make payment</button>
+      <button className='w-full mt-5 bg-green-600 text-white font-semibold p-3 rounded-lg sm:w-[30%]'> Make payment</button>
      </div>
     </div>
   )

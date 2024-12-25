@@ -1,5 +1,5 @@
 import React, { useState, useRef, useEffect } from "react";
-import { Link, useNavigate } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import CaptainDetails from "../components/CaptainDetails";
 import RidePopup from "../components/RidePopup";
 import { useGSAP } from "@gsap/react";
@@ -48,7 +48,7 @@ const CaptainHome = () => {
   const { captain } = useCaptain();
   const { socket } = useSocket();
   useEffect(() => {
-    socket.emit("join", { userId: captain._id, userType: "captain" });
+    socket.emit("join", { userId: captain?._id, userType: "captain" });
     const updateLocation = () => {
       if (navigator.geolocation) {
         navigator.geolocation.getCurrentPosition((position) => {
@@ -67,7 +67,7 @@ const CaptainHome = () => {
     return () => clearInterval(locationInterval);
   }, []);
   socket.on("new-ride", (data) => {
-    console.log(data);
+  console.log('new ride');
     setRide(data);
     setRidePopupPanel(true);
   });
@@ -77,11 +77,6 @@ const CaptainHome = () => {
       `${import.meta.env.VITE_BASE_URL}/rides/confirm`,
       {
         rideId: ride._id,
-      },
-      {
-        headers: {
-          Authorization: `Bearer ${localStorage.getItem("token")}`,
-        },
       }
     );
     if (response.statusText == "OK") {
@@ -92,12 +87,7 @@ const CaptainHome = () => {
 
     try {
       const response = await axios.get(
-        `${import.meta.env.VITE_BASE_URL}/captains/logout`,
-        {
-          headers: {
-            Authorization: `Bearer ${localStorage.getItem("token")}`,
-          },
-        }
+        `${import.meta.env.VITE_BASE_URL}/captains/logout`
       );
       if(response.statusText === 'OK'){
         navigate('/captain-login')
@@ -121,7 +111,11 @@ const CaptainHome = () => {
       </div>
 
       <div className="h-[70%]">
-        <LiveTracking className="h-full z-[-1]" />
+        <img
+          className="h-full w-full object-cover"
+          src="https://miro.medium.com/v2/resize:fit:1400/0*gwMx05pqII5hbfmX.gif"
+        />
+        {/* <LiveTracking className="h-full z-[-1]" /> */}
       </div>
       <div className={`h-2/5 p-6 `}>
         <CaptainDetails captain={captain} />

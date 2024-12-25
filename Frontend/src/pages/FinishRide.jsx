@@ -5,18 +5,12 @@ import { useNavigate } from "react-router-dom";
 const FinishRide = ({ setFinishRidePanel, rideData }) => {
   const navigate = useNavigate();
   async function endRide() {
-    console.log('click');
     try {
       const response = await axios.patch(
        `${import.meta.env.VITE_BASE_URL}/rides/end-ride`,
         {
           rideId: rideData._id,
         },
-        {
-          headers: {
-            Authorization: `Bearer ${localStorage.getItem("token")}`,
-          },
-        }
       );
       if (response.statusText === "OK") {
         setFinishRidePanel(false);
@@ -50,28 +44,26 @@ const FinishRide = ({ setFinishRidePanel, rideData }) => {
       </div>
 
       <div className="flex gap-2 justify-between flex-col items-center">
-        <div className="w-full mt-5">
+      <div className="w-full mt-5">
           <div className="flex items-center gap-5 p-3 border-b-2">
-            <i className="ri-map-pin-user-fill"></i>
+            <i className="ri-map-pin-user-fill lg:text-2xl sm:text-2xl"></i>
             <div>
-              <h3 className="text-lg font-medium">562/11-A</h3>
-              <p className="text-sm -mt-1 text-gray-600">{rideData?.pickup}</p>
+              <h3 className="text-lg font-medium lg:text-xl sm:text-xl">562/11-A</h3>
+              <p className="text-sm -mt-1 text-gray-600 lg:text-xl sm:text-xl xs:text-base">{rideData?.pickup || 'thakurli'}</p>
             </div>
           </div>
           <div className="flex items-center gap-5 p-3 border-b-2">
-            <i className="text-lg ri-map-pin-2-fill"></i>
+            <i className="text-lg ri-map-pin-2-fill lg:text-2xl sm:text-2xl"></i>
             <div>
-              <h3 className="text-lg font-medium">562/11-A</h3>
-              <p className="text-sm -mt-1 text-gray-600">
-                {rideData?.destination}
-              </p>
+              <h3 className="text-lg font-medium lg:text-xl sm:text-xl">562/11-A</h3>
+              <p className="text-sm -mt-1 text-gray-600 lg:text-xl sm:text-xl xs:text-base">{rideData?.destination || 'thane'}</p>
             </div>
           </div>
           <div className="flex items-center gap-5 p-3">
-            <i className="ri-currency-line"></i>
+            <i className="ri-currency-line lg:text-2xl sm:text-2xl"></i>
             <div>
-              <h3 className="text-lg font-medium">₹{rideData?.fare}</h3>
-              <p className="text-sm -mt-1 text-gray-600">Cash </p>
+              <h3 className="text-lg font-medium lg:text-xl sm:text-xl xs:text-base">₹{rideData?.fare[vehicleType] || '200'}</h3>
+              <p className="text-sm -mt-1 text-gray-600 lg:text-xl sm:text-xl xs:text-base">Cash </p>
             </div>
           </div>
         </div>
@@ -79,7 +71,7 @@ const FinishRide = ({ setFinishRidePanel, rideData }) => {
         <div className="mt-6 w-full">
           <button
             onClick={endRide}
-            className="flex text-lg w-full justify-center mt-5 bg-green-600 text-white font-semibold p-3 rounded-lg"
+            className="flex text-lg w-full justify-center mt-5 bg-green-600 text-white font-semibold px-3 py-4 rounded-lg xs:w-[30%] lg:w-[25%]"
           >
             Finish Ride
           </button>
